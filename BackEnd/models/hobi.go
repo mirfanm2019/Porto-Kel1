@@ -1,4 +1,3 @@
-// Bismillah
 package models
 
 type Hobi struct {
@@ -13,3 +12,4 @@ type HobiRequest struct {
 	NamaHobi string `json:"nama_hobi"`
 	Kategori string `json:"kategori_hobi"`
 }
+ 
