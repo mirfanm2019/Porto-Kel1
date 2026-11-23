@@ -1,0 +1,25 @@
+info:
+  name: 27 Ubah sertifikasi
+  type: http
+  seq: 27
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/api/admin/hobi/2"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "nama_hobi": "makan",
+        "kategori_hobi": "mancing"
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

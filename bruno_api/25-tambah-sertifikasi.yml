@@ -1,0 +1,31 @@
+info:
+  name: 25 Tambah sertifikasi
+  type: http
+  seq: 25
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/admin/hobi"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |
+      {
+        "nama_hobi": "Mancing Ayam",
+        "kategori_hobi": "mancing"
+        
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: if (res.getStatus() === 201) bru.setVar("sertifikasiId", res.getBody().id_sertifikasi);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

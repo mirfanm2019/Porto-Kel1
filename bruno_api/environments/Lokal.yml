@@ -1,0 +1,24 @@
+name: Lokal
+variables:
+  - name: baseUrl
+    value: http://localhost:8080
+  - name: adminUsername
+    value: admin
+  - name: ikonId
+    value: "1"
+  - name: teknologiId
+    value: "1"
+  - name: proyekId
+    value: "1"
+  - name: perjalananId
+    value: "1"
+  - name: sertifikasiId
+    value: "1"
+  - name: sosialId
+    value: "1"
+  - secret: true
+    name: adminPassword
+    description: ""
+  - secret: true
+    name: newPassword
+    description: ""

@@ -1,0 +1,35 @@
+info:
+  name: 11 Tambah perjalanan
+  type: http
+  seq: 11
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/admin/experiences"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "institusi": "Tempat Belajar",
+        "kategori": "pelatihan",
+        "tanggal_mulai": "2025-01-01",
+        "tanggal_selesai": "",
+        "informasi_tambahan": "Kelas Go Pemula",
+        "deskripsi": "Latihan backend",
+        "sort_order": 3
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: if (res.getStatus() === 201) bru.setVar("perjalananId", res.getBody().id_perjalanan);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true
