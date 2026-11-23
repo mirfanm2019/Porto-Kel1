@@ -19,8 +19,7 @@ func Open(cfg config.Config) (*gorm.DB, error) {
 	if err := db.AutoMigrate(
 		&models.Autentikasi{}, &models.KontenWebsite{}, &models.Profil{}, &models.Ikon{},
 		&models.MediaSosial{}, &models.Perjalanan{}, &models.Teknologi{}, &models.Proyek{},
-		&models.Sertifikasi{}, &models.TeknologiProyek{}, &models.TeknologiProfil{}, &models.Hobi{},
-		&models.Alamatt{},
+		&models.Sertifikasi{}, &models.TeknologiProyek{}, &models.TeknologiProfil{}, 
 	); err != nil {
 		return nil, fmt.Errorf("migration: %w", err)
 	}
