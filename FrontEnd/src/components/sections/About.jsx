@@ -54,7 +54,7 @@ export default function About(){
                         <img
                             src={photo}
                             alt={`Foto ${fullName}`}
-                            className="aspect-[1135/1340] w-full rounded-[14px] object-cover lg:aspect-auto lg:h-[clamp(11rem,calc(100svh-24rem),21rem)]"
+                            className="aspect-[3/4] w-full rounded-[14px] object-cover object-center"
                         />
                         <figcaption className="flex items-end justify-between px-3 pt-5 pb-3 lg:pt-3 lg:pb-1">
                             <div>
@@ -154,13 +154,13 @@ export default function About(){
                                             <img
                                                 src={member.photo}
                                                 alt={`Foto ${member.name}`}
-                                                className="aspect-[1135/1340] w-full rounded-[14px] object-cover lg:aspect-auto lg:h-[clamp(11rem,calc(100svh-24rem),21rem)]"
+                                                className="aspect-[3/4] w-full rounded-[14px] object-cover object-center"
                                             />
                                         ) : (
                                             <div
                                                 role="img"
                                                 aria-label={`Foto ${member.name} belum ditambahkan`}
-                                                className="grid aspect-[1135/1340] place-items-center rounded-[14px] bg-lilac text-sm text-muted lg:aspect-auto lg:h-[clamp(11rem,calc(100svh-24rem),21rem)]"
+                                                className="grid aspect-[3/4] place-items-center rounded-[14px] bg-lilac text-sm text-muted"
                                             >
                                                 Foto belum ditambahkan
                                             </div>

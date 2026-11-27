@@ -15,6 +15,8 @@ const PREVIOUS_HERO_DESCRIPTION =
     "Kami membantu tim meluncurkan produk yang kuat dan mudah dikelola — memadukan pemikiran produk, kejelasan visual, dan pemecahan masalah berbasis kode.";
 const OLD_PROFILE_ABOUT =
     "Saya bermitra dengan tim untuk mengubah ide produk menjadi pengalaman yang dipoles dan mudah dikelola. Pendekatan saya menyeimbangkan kejelasan visual, kelayakan teknis, dan kolaborasi yang efektif.";
+const OLD_MOCK_PROFILE_ABOUT =
+    "Kami bermitra untuk mengubah ide produk menjadi pengalaman yang dipoles dan mudah dikelola. Pendekatan kami menyeimbangkan kejelasan visual, kelayakan teknis, dan kolaborasi yang efektif.";
 
 function seed() {
     return structuredClone({
@@ -64,6 +66,18 @@ export function readDb() {
         }
         if (memory.profile?.about === OLD_PROFILE_ABOUT) {
             memory.profile.about = mockProfile.about;
+            migrated = true;
+        }
+        if (
+            memory.profile?.photoUrl === "/images/profile.jpg" &&
+            memory.profile?.fullName === "[Nama Full]" &&
+            memory.profile?.role === "Fullstack Developer" &&
+            memory.profile?.location === "[Kota, Provinsi]" &&
+            memory.profile?.email === "email@contoh.com" &&
+            memory.profile?.bio === "Sedikit niat di setiap interaksi." &&
+            memory.profile?.about === OLD_MOCK_PROFILE_ABOUT
+        ) {
+            memory.profile = structuredClone(mockProfile);
             migrated = true;
         }
         if (migrated) {

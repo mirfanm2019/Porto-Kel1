@@ -1,4 +1,4 @@
-import { groupHero } from "../data/profile.js";
+import { groupHero, profile } from "../data/profile.js";
 
 export const JOURNEY_KINDS = [
     { value: "pekerjaan", label: "Pekerjaan" },
@@ -108,15 +108,25 @@ export const footerTextToApi = (f) => ({
     teks_tambahan_footer: f.extraText,
 });
 
-export const profileFromApi = (p) => ({
-    photoUrl: p.url_foto_profil ?? "",
-    fullName: p.nama_lengkap ?? "",
-    role: p.jabatan_profesional ?? "",
-    location: p.lokasi ?? "",
-    email: p.email ?? "",
-    bio: p.biografi ?? "",
-    about: p.deskripsi_tentang_saya ?? "",
-});
+export const profileFromApi = (p) => {
+    const isDefaultProfile =
+        p.nama_lengkap === "Nama Anda" &&
+        p.jabatan_profesional === "Web Developer" &&
+        p.lokasi === "Indonesia" &&
+        p.email === "halo@example.com" &&
+        p.biografi === "Saya sedang belajar pengembangan web." &&
+        p.deskripsi_tentang_saya === "Saya tertarik membangun aplikasi web dan terus belajar teknologi baru.";
+
+    return {
+        photoUrl: p.url_foto_profil || (isDefaultProfile ? profile.photo : ""),
+        fullName: isDefaultProfile ? profile.fullName : p.nama_lengkap ?? "",
+        role: isDefaultProfile ? profile.role : p.jabatan_profesional ?? "",
+        location: isDefaultProfile ? profile.location : p.lokasi ?? "",
+        email: p.email ?? "",
+        bio: isDefaultProfile ? profile.pitch : p.biografi ?? "",
+        about: isDefaultProfile ? profile.about : p.deskripsi_tentang_saya ?? "",
+    };
+};
 
 export const profileToApi = (p) => ({
     url_foto_profil: p.photoUrl,

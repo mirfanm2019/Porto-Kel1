@@ -1,4 +1,4 @@
-import { certificates, groupHero } from "./profile.js";
+import { certificates, groupHero, profile } from "./profile.js";
 
 export const mockTechnologies = [
     { id: 1, name: "React", iconId: null, iconUrl: null },
@@ -105,14 +105,13 @@ export const mockCertificates = certificates.map((certificate) => ({
 export const mockHero = { ...groupHero };
 
 export const mockProfile = {
-    photoUrl: "/images/profile.jpg",
-    fullName: "[Nama Full]",
-    role: "Fullstack Developer",
-    location: "[Kota, Provinsi]",
+    photoUrl: profile.photo,
+    fullName: profile.fullName,
+    role: profile.role,
+    location: profile.location,
     email: "email@contoh.com",
-    bio: "Sedikit niat di setiap interaksi.",
-    about:
-        "Kami bermitra untuk mengubah ide produk menjadi pengalaman yang dipoles dan mudah dikelola. Pendekatan kami menyeimbangkan kejelasan visual, kelayakan teknis, dan kolaborasi yang efektif.",
+    bio: profile.pitch,
+    about: profile.about,
     tech: [react, ts, node],
 };
 

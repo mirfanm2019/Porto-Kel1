@@ -1,16 +1,14 @@
 export const profile = {
     fullName: "M. Irfan Maulana",
-    firstName: "Irpan",
+    firstName: "Irfan",
     lastName: "Mau",
     role: "Belajar Menuju Fullstack",
     location: "Palembang",
     photo: "/images/foto irfan.jpeg",
     cvUrl: "/cv.pdf",
-    pitch:
-        "Kami membantu tim meluncurkan produk yang kuat dan mudah dikelola — memadukan pemikiran produk, kejelasan visual, dan pemecahan masalah berbasis kode.",
+    pitch: "Saya sedang belajar pengembangan web.",
     motto: "Sedikit ada niat di setiap interaksi.",
-    about:
-        "Kami adalah tim yang terus belajar.",
+    about: "Saya tertarik membangun aplikasi web dan terus belajar teknologi baru.",
     highlights: [
         "Tuliskan Highlight yang kalian Mau"
     ],
