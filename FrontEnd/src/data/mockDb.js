@@ -45,6 +45,46 @@ export function readDb() {
             memory.certificates = structuredClone(mockCertificates);
             migrated = true;
         }
+        const seededCertificates = new Set(
+            memory.certificates?.map((certificate) => certificate.credentialId).filter(Boolean) ?? [],
+        );
+        const newCertificates = mockCertificates.filter(
+            (certificate) => !seededCertificates.has(certificate.credentialId),
+        );
+        if (newCertificates.length > 0) {
+            memory.certificates = [...(memory.certificates ?? []), ...structuredClone(newCertificates)];
+            migrated = true;
+        }
+        const certificatesWithoutPlaceholder = (memory.certificates ?? []).filter(
+            (certificate) =>
+                !(
+                    certificate.title === "Dasar Pemrograman Go" &&
+                    certificate.issuer === "Belajar Mandiri" &&
+                    certificate.credentialId === "GO-001" &&
+                    certificate.description === "Contoh data sertifikasi."
+                ),
+        );
+        if (certificatesWithoutPlaceholder.length !== memory.certificates?.length) {
+            memory.certificates = certificatesWithoutPlaceholder;
+            migrated = true;
+        }
+        const certificateOrders = new Map(
+            mockCertificates.map((certificate) => [certificate.credentialId, certificate.sortOrder]),
+        );
+        for (const certificate of memory.certificates ?? []) {
+            const sortOrder = certificateOrders.get(certificate.credentialId);
+            if (sortOrder !== undefined && certificate.sortOrder !== sortOrder) {
+                certificate.sortOrder = sortOrder;
+                migrated = true;
+            }
+        }
+        const sortedCertificates = [...(memory.certificates ?? [])].sort(
+            (a, b) => (a.sortOrder ?? Number.MAX_SAFE_INTEGER) - (b.sortOrder ?? Number.MAX_SAFE_INTEGER),
+        );
+        if (sortedCertificates.some((certificate, index) => certificate !== memory.certificates[index])) {
+            memory.certificates = sortedCertificates;
+            migrated = true;
+        }
         if (memory.hero?.description === OLD_HERO_DESCRIPTION) {
             memory.hero.description = mockHero.description;
             migrated = true;

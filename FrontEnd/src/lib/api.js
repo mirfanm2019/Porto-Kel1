@@ -1,5 +1,5 @@
 import { readDb } from "../data/mockDb.js";
-import { journeyFromApi, projectFromApi, journeyToPublic, projectToPublic, heroFromApi, profileFromApi, techLinkFromApi, footerTextFromApi, socialFromApi, certificateFromApi, certificateToPublic } from "./mappers.js";
+import { journeyFromApi, projectFromApi, journeyToPublic, projectToPublic, heroFromApi, profileFromApi, techLinkFromApi, footerTextFromApi, socialFromApi, certificateToPublic, certificatesForPublic } from "./mappers.js";
 export const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 
 const BASE_URL = import.meta.env.VITE_API_URL || "/api";
@@ -102,7 +102,7 @@ const realApi = {
     },
     getCertificates: async (options) => {
         const portfolio = await getPortfolio(options);
-        return (portfolio.certificates ?? []).map(certificateFromApi).map(certificateToPublic);
+        return certificatesForPublic(portfolio.certificates ?? []);
     },
 };
 

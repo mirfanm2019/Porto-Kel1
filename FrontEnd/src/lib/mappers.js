@@ -1,4 +1,4 @@
-import { groupHero, profile } from "../data/profile.js";
+import { certificates, groupHero, profile } from "../data/profile.js";
 
 export const JOURNEY_KINDS = [
     { value: "pekerjaan", label: "Pekerjaan" },
@@ -264,3 +264,37 @@ export const certificateToPublic = (c) => ({
     credentialId: c.credentialId,
     credentialUrl: c.credentialUrl,
 });
+
+export const certificatesForPublic = (items) => {
+    const fhabianCertificates = certificates.filter(
+        (certificate) => certificate.issuer === "SMA Xaverius 3 Palembang",
+    );
+    const fhabianIds = new Set(fhabianCertificates.map((certificate) => certificate.credentialId));
+    const apiCertificates = items.map(certificateFromApi);
+    const apiByCredentialId = new Map(
+        apiCertificates
+            .filter((certificate) => certificate.credentialId)
+            .map((certificate) => [certificate.credentialId, certificate]),
+    );
+    const isExampleCertificate = (certificate) =>
+        certificate.title === "Dasar Pemrograman Go" &&
+        certificate.issuer === "Belajar Mandiri" &&
+        certificate.credentialId === "GO-001" &&
+        certificate.description === "Contoh data sertifikasi.";
+
+    const fhabianPublic = fhabianCertificates.map((fallback) => {
+        const existing = apiByCredentialId.get(fallback.credentialId);
+        return certificateToPublic(
+            existing ? { ...existing, sortOrder: fallback.sortOrder } : fallback,
+        );
+    });
+    const remainingPublic = apiCertificates
+        .filter(
+            (certificate) =>
+                !isExampleCertificate(certificate) && !fhabianIds.has(certificate.credentialId),
+        )
+        .sort((a, b) => a.sortOrder - b.sortOrder)
+        .map(certificateToPublic);
+
+    return [...fhabianPublic, ...remainingPublic];
+};

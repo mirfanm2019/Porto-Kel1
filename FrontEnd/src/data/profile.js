@@ -17,7 +17,7 @@ export const profile = {
         { type: "email", label: "Email Gweh nih", href: "mailto:darrell.satriano@gmail.com"},
         { type: "link", label: "Porto Keknya", href: "https://www.satriano.me" },
         { type: "location", label: "Bumi" },
-        { type: "whatsapp", label: "WA?", href: "https://wa.me/6281271148877" },
+        { type: "whatsapp", label: "WA?", href: "" },
     ],
 
     tech: ["react", "nodejs", "typescript", "postgresql", "figma"],
@@ -31,8 +31,8 @@ export const profile = {
         {
             id: "Fabian Rafael",
             name: "Fhabian Rafael",
-            role: "Peran / jabatan",
-            photo: "",
+            role: "King Gacor",
+            photo: "/images/Foto%20Fhabian.jpeg",
             about: "Tulis deskripsi singkat tentang Fhabian Rafael di sini.",
             highlights: ["Tambahkan keahlian atau pencapaian Fhabian Rafael."],
             contacts: [
@@ -94,7 +94,7 @@ export const certificates = [
         credentialId: "001/TEKN/NCC3/LSPN-POLTEK.TEDC/IV/2026",
         imageUrl: "/images/Juara%203%20NCC.png",
         description: "Bidang Teknologi. Waktu: 11–12 April 2026.",
-        sortOrder: 1,
+        sortOrder: 3,
     },
     {
         id: 2,
@@ -104,7 +104,7 @@ export const certificates = [
         credentialId: "007/BEST-FAV/NCC3/LSPN-POLTEK.TEDC/IV/2026",
         imageUrl: "/images/Sertifikat%20Best%20Presentation.png",
         description: "Waktu: 11–12 April 2026.",
-        sortOrder: 2,
+        sortOrder: 4,
     },
     {
         id: 3,
@@ -114,7 +114,29 @@ export const certificates = [
         credentialId: "004/PTN/NCC3/LSPN-POLTEK.TEDC/IV/2026",
         imageUrl: "/images/Silver%20Medal%20Pertanian.jpeg",
         description: "Bidang Pertanian. Waktu: 11–12 April 2026.",
-        sortOrder: 3,
+        sortOrder: 5,
+    },
+    {
+        id: 4,
+        title: "Peringkat Umum I — Semester Ganjil 2024/2025",
+        issuer: "SMA Xaverius 3 Palembang",
+        issuedAt: "2024-12-20",
+        credentialId: "448/SMA Xav./3.S.6/2024",
+        imageUrl: "/images/Sertifikat%20Peringkat%20Semester%20Ganjil.jpg",
+        description:
+            "Fhabian Rafael meraih peringkat umum I dengan jumlah nilai 1238 dan rerata 95,23 di kelas F (XII).",
+        sortOrder: 1,
+    },
+    {
+        id: 5,
+        title: "Peringkat Umum I — Semester Genap 2023/2024",
+        issuer: "SMA Xaverius 3 Palembang",
+        issuedAt: "2024-06-14",
+        credentialId: "132/SMA Xav./3.S.6/2024",
+        imageUrl: "/images/Sertifikat%20Peringkat%20Semester%20Genap.jpg",
+        description:
+            "Fhabian Rafael meraih peringkat umum I dengan rerata nilai 93,71 di kelas F (Rumpun Ilmu Teknik dan Kesehatan).",
+        sortOrder: 2,
     },
 ];
 

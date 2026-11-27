@@ -156,14 +156,11 @@ func seed(db *gorm.DB, cfg config.Config) error {
 		}
 	}
 
-	sertifikasiContoh := models.Sertifikasi{IDSertifikasi: 1, NamaSertifikat: "Dasar Pemrograman Go", Penerbit: "Belajar Mandiri", TanggalTerbit: datePointer(2025, 2, 1), NomorSertifikat: "GO-001", Deskripsi: "Contoh data sertifikasi.", UrutanTampil: 1}
-	var sertifikasi models.Sertifikasi
-	if err := db.First(&sertifikasi, 1).Error; err == gorm.ErrRecordNotFound {
-		if err := db.Create(&sertifikasiContoh).Error; err != nil {
-			return fmt.Errorf("seed sertifikasi: %w", err)
-		}
-	} else if err != nil {
-		return fmt.Errorf("baca sertifikasi: %w", err)
+	if err := db.Where(
+		"nama_sertifikat = ? AND penerbit = ? AND nomor_sertifikat = ? AND deskripsi = ?",
+		"Dasar Pemrograman Go", "Belajar Mandiri", "GO-001", "Contoh data sertifikasi.",
+	).Delete(&models.Sertifikasi{}).Error; err != nil {
+		return fmt.Errorf("hapus sertifikat contoh: %w", err)
 	}
 
 	prestasi := []models.Sertifikasi{
@@ -174,7 +171,7 @@ func seed(db *gorm.DB, cfg config.Config) error {
 			NomorSertifikat: "001/TEKN/NCC3/LSPN-POLTEK.TEDC/IV/2026",
 			URLGambar:       "/images/Juara%203%20NCC.png",
 			Deskripsi:       "Bidang Teknologi. Waktu: 11–12 April 2026.",
-			UrutanTampil:    2,
+			UrutanTampil:    3,
 		},
 		{
 			NamaSertifikat:  "Best Presentation — Nusantara Creative Competition (NCC) 3",
@@ -183,7 +180,7 @@ func seed(db *gorm.DB, cfg config.Config) error {
 			NomorSertifikat: "007/BEST-FAV/NCC3/LSPN-POLTEK.TEDC/IV/2026",
 			URLGambar:       "/images/Sertifikat%20Best%20Presentation.png",
 			Deskripsi:       "Waktu: 11–12 April 2026.",
-			UrutanTampil:    3,
+			UrutanTampil:    4,
 		},
 		{
 			NamaSertifikat:  "Silver Medal — Nusantara Creative Competition (NCC) 3",
@@ -192,7 +189,25 @@ func seed(db *gorm.DB, cfg config.Config) error {
 			NomorSertifikat: "004/PTN/NCC3/LSPN-POLTEK.TEDC/IV/2026",
 			URLGambar:       "/images/Silver%20Medal%20Pertanian.jpeg",
 			Deskripsi:       "Bidang Pertanian. Waktu: 11–12 April 2026.",
-			UrutanTampil:    4,
+			UrutanTampil:    5,
+		},
+		{
+			NamaSertifikat:  "Peringkat Umum I — Semester Ganjil 2024/2025",
+			Penerbit:        "SMA Xaverius 3 Palembang",
+			TanggalTerbit:   datePointer(2024, time.December, 20),
+			NomorSertifikat: "448/SMA Xav./3.S.6/2024",
+			URLGambar:       "/images/Sertifikat%20Peringkat%20Semester%20Ganjil.jpg",
+			Deskripsi:       "Fhabian Rafael meraih peringkat umum I dengan jumlah nilai 1238 dan rerata 95,23 di kelas F (XII).",
+			UrutanTampil:    1,
+		},
+		{
+			NamaSertifikat:  "Peringkat Umum I — Semester Genap 2023/2024",
+			Penerbit:        "SMA Xaverius 3 Palembang",
+			TanggalTerbit:   datePointer(2024, time.June, 14),
+			NomorSertifikat: "132/SMA Xav./3.S.6/2024",
+			URLGambar:       "/images/Sertifikat%20Peringkat%20Semester%20Genap.jpg",
+			Deskripsi:       "Fhabian Rafael meraih peringkat umum I dengan rerata nilai 93,71 di kelas F (Rumpun Ilmu Teknik dan Kesehatan).",
+			UrutanTampil:    2,
 		},
 	}
 	for _, item := range prestasi {
@@ -206,6 +221,11 @@ func seed(db *gorm.DB, cfg config.Config) error {
 		}
 		if err != nil {
 			return fmt.Errorf("baca sertifikat prestasi %q: %w", item.NamaSertifikat, err)
+		}
+		if existing.UrutanTampil != item.UrutanTampil {
+			if err := db.Model(&existing).Update("sort_order", item.UrutanTampil).Error; err != nil {
+				return fmt.Errorf("perbarui urutan sertifikat %q: %w", item.NamaSertifikat, err)
+			}
 		}
 	}
 
