@@ -19,7 +19,7 @@ export default function Journey() {
                     eyebrow="Pengalaman & pendidikan"
                     dot="bg-sun"
                     line1="Perjalanan"
-                    line2="yang membentuk saya."
+                    line2="yang membentuk kami."
                 />
 
                 <div className="mt-12 lg:mt-slide">

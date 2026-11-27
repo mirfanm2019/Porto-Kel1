@@ -1,3 +1,5 @@
+import { certificates, groupHero } from "./profile.js";
+
 export const mockTechnologies = [
     { id: 1, name: "React", iconId: null, iconUrl: null },
     { id: 2, name: "Node.js", iconId: null, iconUrl: null },
@@ -94,30 +96,13 @@ export const mockProjects = [
     },
 ];
 
-export const mockCertificates = [1, 2, 3].map((n, i) => ({
-    id: n,
-    title: "[Judul Sertifikasi]",
-    issuer: "[Penerbit]",
-    issuedAt: ["2026-03-14", "2025-11-02", "2025-06-20"][i],
+export const mockCertificates = certificates.map((certificate) => ({
+    ...certificate,
     expiresAt: null,
-    credentialId: "",
     credentialUrl: "",
-    description: "Placeholder untuk penerbit, tanggal penyelesaian, dan deskripsi singkat tentang kredensial.",
-    sortOrder: n,
 }));
 
-export const mockHero = {
-    displayName: "[Nama Full]",
-    roleLabel: "FULLSTACK DEVELOPER",
-    headline: "Bangun dan luncurkan.",
-    heroText: "",
-    supportText: "",
-    extraText: "Akademik × PTI",
-    description:
-        "Saya membantu tim meluncurkan produk yang kuat dan mudah dikelola — memadukan pemikiran produk, kejelasan visual, dan pemecahan masalah berbasis kode.",
-    ctaLabel: "Jelajahi proyek",
-    ctaUrl: "#proyek",
-};
+export const mockHero = { ...groupHero };
 
 export const mockProfile = {
     photoUrl: "/images/profile.jpg",
@@ -127,7 +112,7 @@ export const mockProfile = {
     email: "email@contoh.com",
     bio: "Sedikit niat di setiap interaksi.",
     about:
-        "Saya bermitra dengan tim untuk mengubah ide produk menjadi pengalaman yang dipoles dan mudah dikelola. Pendekatan saya menyeimbangkan kejelasan visual, kelayakan teknis, dan kolaborasi yang efektif.",
+        "Kami bermitra untuk mengubah ide produk menjadi pengalaman yang dipoles dan mudah dikelola. Pendekatan kami menyeimbangkan kejelasan visual, kelayakan teknis, dan kolaborasi yang efektif.",
     tech: [react, ts, node],
 };
 

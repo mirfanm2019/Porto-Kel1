@@ -1,5 +1,5 @@
 import {ArrowDown} from "lucide-react";
-import {profile} from "../../data/profile.js";
+import { groupHero, profile } from "../../data/profile.js";
 import { api } from "../../lib/api.js";
 import { useFetch } from "../../hooks/useFetch.js";
 import Button from "../ui/Button.jsx";
@@ -8,8 +8,9 @@ import Decor from "../ui/Decor.jsx";
 
 export default function Hero (){
     const { data: hero } = useFetch(api.getHero);
-    const name = hero?.displayName || profile.fullName;
-    const role = hero?.roleLabel || profile.role;
+    const heroContent = hero ?? groupHero;
+    const name = heroContent.displayName || groupHero.displayName;
+    const role = heroContent.roleLabel || groupHero.roleLabel;
     return (
         <section id="top" className="relative isolate flex min-h-svh flex-col overflow-hidden bg-night text-cream">
             <img
@@ -35,32 +36,25 @@ export default function Hero (){
 
                 <h1 className="relative mt-5 font-display text-hero tracking-display">
                     <Decor src="/images/mask.png" className="-top-12 -left-16 w-28 -rotate-12 drop-shadow-[0_0_18px_rgb(255_77_141/0.6)]" />
-                    {hero?.headline ? (
-                        hero.headline
-                    ) : (
-                        <>
-                            Membangun &amp;
-                            <span className="block text-violet">Melonjakkan.</span>
-                        </>
-                    )}
+                    {heroContent.headline || groupHero.headline}
                 </h1>
 
-                {hero?.heroText && (
-                    <p className="mt-6 max-w-2xl text-lg text-cream/90">{hero.heroText}</p>
+                {heroContent.heroText && (
+                    <p className="mt-6 max-w-2xl text-lg text-cream/90">{heroContent.heroText}</p>
                 )}
-                {hero?.supportText && (
-                    <p className="mt-3 max-w-2xl text-cream/80">{hero.supportText}</p>
+                {heroContent.supportText && (
+                    <p className="mt-3 max-w-2xl text-cream/80">{heroContent.supportText}</p>
                 )}
-                {hero?.extraText && (
-                    <p className="mt-2 max-w-2xl text-sm text-cream/70">{hero.extraText}</p>
+                {heroContent.extraText && (
+                    <p className="mt-2 max-w-2xl text-sm text-cream/70">{heroContent.extraText}</p>
                 )}
-                {hero?.description && (
-                    <p className="mt-4 max-w-xl text-sm text-cream/70">{hero.description}</p>
+                {heroContent.description && (
+                    <p className="mt-4 max-w-xl text-sm text-cream/70">{heroContent.description}</p>
                 )}
 
                 <div className="mt-10 flex flex-wrap justify-center gap-3">
-                    <Button href={hero?.ctaUrl || "#proyek"} variant="ghost">
-                        {hero?.ctaLabel || "Jelajahi Proyek"}
+                    <Button href={heroContent.ctaUrl || "#proyek"} variant="ghost">
+                        {heroContent.ctaLabel || "Lihat proyek kami"}
                     </Button>
                     <Button href="#profil" variant="cream">Lihat Profil</Button>
                     <Button href={profile.cvUrl} variant="ghost" download>

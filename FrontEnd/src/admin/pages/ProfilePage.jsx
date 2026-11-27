@@ -29,7 +29,7 @@ function ProfileForm({ initial }) {
 
       <div className="mt-8 grid gap-x-10 gap-y-6 md:grid-cols-2">
         <TextArea label="Biografi" placeholder="Tulis biografi singkat..." rows={4} {...form.bind("bio")} />
-        <TextArea label="Deskripsi tentang saya" placeholder="Tulis deskripsi tentang Anda..." rows={4} {...form.bind("about")} />
+        <TextArea label="Deskripsi tentang kami" placeholder="Tulis deskripsi tentang kelompok..." rows={4} {...form.bind("about")} />
         <div className="md:col-span-2">
           <TechPicker
             value={form.values.tech ?? []}

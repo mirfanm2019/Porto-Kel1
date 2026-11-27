@@ -243,6 +243,10 @@ function delay({ signal } = {}) {
 
 const badRequest = (message) => new ApiError(message, { status: 400, code: "bad_request" });
 const isHttpUrl = (v) => !v || /^https?:\/\/[^\s/]+/i.test(v);
+const isImagePath = (value) =>
+  !value ||
+  isHttpUrl(value) ||
+  (/^\/(?:images|uploads)\/[^\s]*$/.test(value) && !value.includes(".."));
 
 const VALIDATE = {
   journey: (j) => {
@@ -261,6 +265,7 @@ const VALIDATE = {
     if (!c.title?.trim() || !c.issuer?.trim()) throw badRequest("Nama sertifikat dan penerbit wajib diisi");
     if (c.expiresAt && c.issuedAt && c.expiresAt < c.issuedAt) throw badRequest("Tanggal kadaluarsa tidak boleh sebelum tanggal terbit");
     if (!isHttpUrl(c.credentialUrl)) throw badRequest("URL sertifikat harus HTTP atau HTTPS");
+    if (!isImagePath(c.imageUrl)) throw badRequest("URL gambar harus berupa path /images atau /uploads, atau URL HTTP/HTTPS");
   },
   hero: (h) => {
     if (!h.displayName?.trim() || !h.headline?.trim()) throw badRequest("Nama tampilan dan judul utama wajib diisi");

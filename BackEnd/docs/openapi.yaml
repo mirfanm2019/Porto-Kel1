@@ -366,7 +366,7 @@ paths:
       security: [{SessionCookie: []}]
       parameters: [{$ref: '#/components/parameters/Page'}, {$ref: '#/components/parameters/Limit'}]
       responses:
-        '200': {description: Daftar sertifikasi, content: {application/json: {example: {data: [{id_sertifikasi: 1, nama_sertifikat: "Go Dasar", penerbit: "Lembaga Contoh", tanggal_terbit: "2025-05-01T00:00:00Z", tanggal_kadaluarsa: null, nomor_sertifikat: "ABC-123", url_sertifikat: "https://example.com/certificate", deskripsi: "", sort_order: 1}], pagination: {page: 1, limit: 10, total_items: 1, total_pages: 1}}}}}
+        '200': {description: Daftar sertifikasi, content: {application/json: {example: {data: [{id_sertifikasi: 1, nama_sertifikat: "Go Dasar", penerbit: "Lembaga Contoh", tanggal_terbit: "2025-05-01T00:00:00Z", tanggal_kadaluarsa: null, nomor_sertifikat: "ABC-123", url_sertifikat: "https://example.com/certificate", url_gambar: "/images/certificate.png", deskripsi: "", sort_order: 1}], pagination: {page: 1, limit: 10, total_items: 1, total_pages: 1}}}}}
     post:
       tags: [Sertifikasi]
       summary: Tambah sertifikasi
@@ -376,7 +376,7 @@ paths:
         content:
           application/json:
             schema: {$ref: '#/components/schemas/SertifikasiRequest'}
-            example: {nama_sertifikat: "Go Dasar", penerbit: "Lembaga Contoh", tanggal_terbit: "2025-05-01", tanggal_kadaluarsa: "", nomor_sertifikat: "ABC-123", url_sertifikat: "https://example.com/certificate", deskripsi: "", sort_order: 1}
+            example: {nama_sertifikat: "Go Dasar", penerbit: "Lembaga Contoh", tanggal_terbit: "2025-05-01", tanggal_kadaluarsa: "", nomor_sertifikat: "ABC-123", url_sertifikat: "https://example.com/certificate", url_gambar: "/images/certificate.png", deskripsi: "", sort_order: 1}
       responses:
         '201': {description: Sertifikasi dibuat}
         '400': {$ref: '#/components/responses/BadRequest'}
@@ -398,7 +398,7 @@ paths:
         content:
           application/json:
             schema: {$ref: '#/components/schemas/SertifikasiRequest'}
-            example: {nama_sertifikat: "Go Lanjutan", penerbit: "Lembaga Contoh", tanggal_terbit: "2025-05-01", tanggal_kadaluarsa: "", nomor_sertifikat: "ABC-123", url_sertifikat: "https://example.com/certificate", deskripsi: "Diperbarui", sort_order: 1}
+            example: {nama_sertifikat: "Go Lanjutan", penerbit: "Lembaga Contoh", tanggal_terbit: "2025-05-01", tanggal_kadaluarsa: "", nomor_sertifikat: "ABC-123", url_sertifikat: "https://example.com/certificate", url_gambar: "/images/certificate.png", deskripsi: "Diperbarui", sort_order: 1}
       responses:
         '200': {description: Sertifikasi diperbarui}
         '400': {$ref: '#/components/responses/BadRequest'}
@@ -797,6 +797,7 @@ components:
         tanggal_kadaluarsa: {type: string, format: date, nullable: true}
         nomor_sertifikat: {type: string}
         url_sertifikat: {type: string, format: uri}
+        url_gambar: {type: string, description: "Path gambar lokal atau URL gambar, misalnya /images/certificate.png"}
         deskripsi: {type: string}
         sort_order: {type: integer}
     Sertifikasi:

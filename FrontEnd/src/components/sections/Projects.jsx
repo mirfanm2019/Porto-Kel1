@@ -36,7 +36,7 @@ export default function Projects() {
                         eyebrow="Proyek pilihan"
                         dot="bg-coral"
                         line1="Proyek proyek"
-                        line2="yang pernah saya buat."
+                        line2="yang pernah kami buat."
                     />
                     <div className="max-w-[300px]">
                         <p className="text-sm leading-relaxed text-stone">

@@ -58,7 +58,7 @@ export default function Contact() {
                         line2="yang ingin kamu diskusikan?"
                     />
                     <p className="mt-5 text-cream/90">
-                        Baik itu proyek baru, kolaborasi teknis, atau tinjauan portofolio, saya senang mendengar dari kamu.
+                        Baik itu proyek baru, kolaborasi teknis, atau tinjauan portofolio, kami senang mendengar dari kamu.
                     </p>
 
                     <ul className="mt-8 flex justify-center gap-2 lg:mt-3">
@@ -83,7 +83,7 @@ export default function Contact() {
                     </ul>
 
                     <Button href={profile.whatsapp} target="_blank" rel="noreferrer" className="mt-6 lg:mt-3">
-                        Kontak saya di Whatsapp <ArrowUpRight className="size-4" aria-hidden="true" />
+                        Kontak kami di WhatsApp <ArrowUpRight className="size-4" aria-hidden="true" />
                     </Button>
 
                     <p className="mt-16 font-serif text-xl text-[#a99fb0] italic lg:mt-slide">{closingLine}</p>

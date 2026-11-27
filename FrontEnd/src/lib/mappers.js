@@ -1,3 +1,5 @@
+import { groupHero } from "../data/profile.js";
+
 export const JOURNEY_KINDS = [
     { value: "pekerjaan", label: "Pekerjaan" },
     { value: "magang", label: "Magang" },
@@ -46,17 +48,41 @@ export const techLinkFromApi = (link) => ({
 
 export const iconFromApi = (i) => ({ id: i.id_ikon, name: i.nama_ikon, url: i.url_ikon, category: i.kategori_ikon });
 
-export const heroFromApi = (c) => ({
-    displayName: c.nama_tampilan ?? "",
-    roleLabel: c.label_profesi ?? "",
-    headline: c.judul_utama ?? "",
-    heroText: c.teks_utama_hero ?? "",
-    supportText: c.teks_pendukung ?? "",
-    extraText: c.teks_hero_lainnya ?? "",
-    description: c.deskripsi ?? "",
-    ctaLabel: c.teks_tombol_cta ?? "",
-    ctaUrl: c.url_tujuan_cta ?? "",
-});
+export const heroFromApi = (c) => {
+    const isDefaultHero =
+        c.nama_tampilan === "Nama Anda" &&
+        c.label_profesi === "PORTFOLIO" &&
+        c.judul_utama === "Halo, saya Nama Anda" &&
+        c.teks_utama_hero === "Saya seorang web developer" &&
+        c.teks_pendukung === "Saya senang membangun aplikasi yang bermanfaat." &&
+        c.teks_hero_lainnya === "" &&
+        c.deskripsi === "Selamat datang di portfolio pribadi saya." &&
+        c.teks_tombol_cta === "Hubungi saya" &&
+        c.url_tujuan_cta === "mailto:halo@example.com";
+    const isLegacyGroupHero =
+        c.nama_tampilan === groupHero.displayName &&
+        c.label_profesi === groupHero.roleLabel &&
+        c.judul_utama === groupHero.headline &&
+        c.teks_utama_hero === groupHero.heroText &&
+        c.teks_pendukung === groupHero.supportText &&
+        c.teks_hero_lainnya === "Akademik × PTI" &&
+        c.deskripsi === groupHero.description &&
+        c.teks_tombol_cta === groupHero.ctaLabel &&
+        c.url_tujuan_cta === groupHero.ctaUrl;
+    if (isDefaultHero || isLegacyGroupHero) return { ...groupHero };
+
+    return {
+        displayName: c.nama_tampilan ?? "",
+        roleLabel: c.label_profesi ?? "",
+        headline: c.judul_utama ?? "",
+        heroText: c.teks_utama_hero ?? "",
+        supportText: c.teks_pendukung ?? "",
+        extraText: c.teks_hero_lainnya ?? "",
+        description: c.deskripsi ?? "",
+        ctaLabel: c.teks_tombol_cta ?? "",
+        ctaUrl: c.url_tujuan_cta ?? "",
+    };
+};
 
 export const heroToApi = (h) => ({
     nama_tampilan: h.displayName,
@@ -157,6 +183,7 @@ export const certificateFromApi = (c) => ({
     expiresAt: c.tanggal_kadaluarsa ? toDay(c.tanggal_kadaluarsa) : null,
     credentialId: c.nomor_sertifikat ?? "",
     credentialUrl: c.url_sertifikat ?? "",
+    imageUrl: c.url_gambar ?? "",
     description: c.deskripsi ?? "",
     sortOrder: c.sort_order ?? 0,
 });
@@ -168,6 +195,7 @@ export const certificateToApi = (c) => ({
     tanggal_kadaluarsa: c.expiresAt ?? "",
     nomor_sertifikat: c.credentialId,
     url_sertifikat: c.credentialUrl,
+    url_gambar: c.imageUrl ?? "",
     deskripsi: c.description,
     sort_order: c.sortOrder ?? 0,
 });
@@ -221,7 +249,7 @@ export const certificateToPublic = (c) => ({
     title: c.title,
     issuer: c.issuer,
     date: formatMonthYear(c.issuedAt),
-    image: "/images/certificate-placeholder.svg",
+    image: c.imageUrl || "/images/certificate-placeholder.svg",
     description: c.description,
     credentialId: c.credentialId,
     credentialUrl: c.credentialUrl,

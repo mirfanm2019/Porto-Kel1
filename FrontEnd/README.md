@@ -72,7 +72,7 @@ Buka http://localhost:5173/admin, lalu login dengan `ADMIN_USERNAME` / `ADMIN_PA
 | Profil | `/admin/profil` | Foto, nama, lokasi, email, biografi, teknologi |
 | Perjalanan | `/admin/perjalanan` | Riwayat pendidikan dan pengalaman |
 | Proyek | `/admin/proyek` | Proyek, gambar, tautan, teknologi |
-| Sertifikasi | `/admin/sertifikasi` | Sertifikat dan kredensial |
+| Sertifikasi | `/admin/sertifikasi` | Sertifikat, gambar, dan kredensial |
 | Footer & Sosial | `/admin/footer` | Teks footer dan tautan media sosial |
 
 ## Sumber data tiap section
@@ -85,7 +85,7 @@ Semua section publik membaca `GET /api/public/portfolio` lewat `src/lib/api.js`.
 | About | nama, lokasi, foto, email, biografi, tentang, teknologi | motto, highlights, keahlian, kontak web/WA | tampil teks `profile.js` |
 | Journey | semua | – | pesan error + tombol coba lagi |
 | Projects | semua | link "Lihat semua karya" | pesan error + tombol coba lagi |
-| Certificates | semua (gambar memakai placeholder) | – | pesan error + tombol coba lagi |
+| Certificates | semua termasuk URL gambar | – | pesan error + tombol coba lagi |
 | Contact | teks footer, hak cipta, tautan sosial, nama, peran, lokasi | tombol WhatsApp | tampil teks `profile.js` |
 
 Hero, About, dan Contact sengaja memakai **fallback**: teks dari `profile.js` tampil dulu, lalu diganti saat data backend datang. Dengan begitu, layar pertama tidak pernah kosong atau error.
@@ -149,7 +149,9 @@ FrontEnd/
 |---|---|
 | Teks Hero, profil, proyek, sertifikat, footer | Halaman admin (`/admin`) |
 | Motto, highlights, keahlian, nomor WhatsApp, link CV | `src/data/profile.js` |
+| Profil dan kontak dua anggota tim tambahan | `teamMembers` di `src/data/profile.js`; isi nama, peran, foto, tentang, highlights, dan kontak |
 | Foto profil cadangan | `public/images/` + field `photo` di `profile.js` |
+| Gambar sertifikat | `public/images/` + field URL gambar pada admin atau `url_gambar` di backend |
 | File CV | taruh di `public/cv.pdf` *(belum ada)* |
 | Warna, font, ukuran huruf | blok `@theme` di `src/index.css` |
 | Data yang tampil di mode mock / demo Vercel | `src/data/mock.js` |
@@ -174,6 +176,6 @@ FrontEnd/
 
 ## Catatan
 
-- Backend belum punya kolom untuk gambar sertifikat, keahlian, dan tautan tambahan proyek, jadi bagian itu memakai placeholder atau `profile.js`.
+- Backend belum punya kolom untuk keahlian dan tautan tambahan proyek; gambar sertifikat kini dapat diatur lewat field URL gambar.
 - Saat halaman dibuka, `GET /api/public/portfolio` dipanggil beberapa kali (sekali per section). Hasilnya sama, jadi ini masih bisa dioptimalkan dengan menyimpan hasil panggilan pertama di `api.js`.
 - `npm run lint` menampilkan beberapa error `react-hooks/refs` dan `react-hooks/set-state-in-effect` dari kode bawaan (`useCarousel`, `useFetch`). Aplikasi tetap berjalan normal.

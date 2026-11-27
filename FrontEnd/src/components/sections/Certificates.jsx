@@ -11,6 +11,9 @@ import Chip from "../ui/Chip.jsx";
 import Decor from "../ui/Decor.jsx";
 import { Skeleton, ErrorState, EmptyState } from "../ui/FetchStates.jsx";
 
+const issuerTag = (certificate) =>
+    certificate?.title?.includes("(NCC) 3") ? "NCC 3" : certificate?.issuer;
+
 export default function Certificates() {
     const { status, data, error, reload } = useFetch(api.getCertificates);
     const certificates = data ?? [];
@@ -32,7 +35,7 @@ export default function Certificates() {
                         eyebrow="Sertifikasi"
                         dot="bg-steel"
                         line1="Sertifikasi dan penghargaan"
-                        line2="yang dimiliki oleh saya."
+                        line2="yang kami miliki."
                     />
                     {hasCertificates && (
                         <CarouselControls
@@ -71,7 +74,7 @@ export default function Certificates() {
                                         image={cert.image}
                                         alt={`Sertifikat ${cert.title}`}
                                         tagLeft="Sertifikasi"
-                                        tagRight={cert.issuer}
+                                        tagRight={issuerTag(cert)}
                                         onOpen={() => setSelected(cert)}
                                     />
                                     <p className="mt-3 font-mono text-[10px] uppercase tracking-label text-stone">
@@ -92,7 +95,7 @@ export default function Certificates() {
                 image={selected?.image}
                 imageAlt={`Sertifikat ${selected?.title}`}
                 tagLeft="Sertifikasi"
-                tagRight={selected?.issuer}
+                tagRight={issuerTag(selected)}
                 previewLabel="Pratinjau sertifikasi"
                 aboutTitle="Tentang kredensial"
                 description={selected?.description}
@@ -107,7 +110,7 @@ export default function Certificates() {
                     </DetailField>
                 )}
                 {selected?.credentialId && (
-                    <DetailField label="ID kredensial" divider>
+                    <DetailField label="No. Sertifikat" divider>
                         {selected.credentialId}
                     </DetailField>
                 )}

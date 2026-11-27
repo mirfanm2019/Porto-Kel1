@@ -38,10 +38,10 @@ export default function About(){
                 <div className="grid items-end gap-10 lg:grid-cols-[1fr_400px] lg:gap-6 xl:grid-cols-[1fr_480px]">
                     <SectionHeading
                         id="profil-title"
-                        eyebrow="Profil pengembang fullstack"
+                        eyebrow="Profil kelompok"
                         dot="bg-sage"
-                        line1="Hii, get to know me!"
-                        line2="siapakah saya?"
+                        line1="Hii, get to know us!"
+                        line2="siapakah kami?"
                     />
                     <div className="rounded-3xl border border-white bg-white/60 p-6 shadow-card backdrop-blur lg:p-5">
                         <p className="leading-loose text-ink lg:leading-relaxed">{bio}</p>
@@ -139,6 +139,89 @@ export default function About(){
                         </div>
                     </div>
                 </div>
+
+                {profile.teamMembers.length > 0 && (
+                    <section aria-labelledby="team-title" className="mt-16 lg:mt-12">
+                        <h3 id="team-title" className="font-mono text-label uppercase tracking-label text-stone">
+                            Teman Satu Tim
+                        </h3>
+                        <div className="mt-8 space-y-12">
+                            {profile.teamMembers.map((member) => (
+                                <article key={member.id} className="grid items-start gap-12 md:grid-cols-[300px_1fr] lg:grid-cols-[240px_1fr] lg:gap-10 xl:grid-cols-[280px_1fr]">
+                                    <figure className="relative mx-auto w-full max-w-[340px] -rotate-2 self-start rounded-[22px] bg-cream p-3 shadow-float">
+                                        <Decor src="/images/mask.png" className="-top-6 -right-6 w-20 rotate-6" />
+                                        {member.photo ? (
+                                            <img
+                                                src={member.photo}
+                                                alt={`Foto ${member.name}`}
+                                                className="aspect-[1135/1340] w-full rounded-[14px] object-cover lg:aspect-auto lg:h-[clamp(11rem,calc(100svh-24rem),21rem)]"
+                                            />
+                                        ) : (
+                                            <div
+                                                role="img"
+                                                aria-label={`Foto ${member.name} belum ditambahkan`}
+                                                className="grid aspect-[1135/1340] place-items-center rounded-[14px] bg-lilac text-sm text-muted lg:aspect-auto lg:h-[clamp(11rem,calc(100svh-24rem),21rem)]"
+                                            >
+                                                Foto belum ditambahkan
+                                            </div>
+                                        )}
+                                        <figcaption className="flex items-end justify-between px-3 pt-5 pb-3 lg:pt-3 lg:pb-1">
+                                            <div>
+                                                <p className="font-serif text-xl italic">{member.name}</p>
+                                                <p className="mt-1 flex items-center gap-2 font-mono text-[10px] uppercase tracking-label text-violet">
+                                                    <span className="size-1.5 rounded-full bg-pink" aria-hidden="true" />
+                                                    {member.role}
+                                                </p>
+                                            </div>
+                                            <Sparkle className="size-6 fill-violet text-violet" aria-hidden="true" />
+                                        </figcaption>
+                                    </figure>
+
+                                    <div>
+                                        <Label>Tentang</Label>
+                                        <p className="mt-4 max-w-[46ch] text-lg leading-[1.7] lg:mt-3 lg:text-base lg:leading-relaxed">
+                                            {member.about}
+                                        </p>
+
+                                        <ul className="mt-7 space-y-3 lg:mt-4 lg:space-y-2">
+                                            {member.highlights.map((highlight) => (
+                                                <li key={highlight} className="flex items-center gap-3 text-[15px]">
+                                                    <Check className="size-4 shrink-0 text-sage" aria-hidden="true" />
+                                                    {highlight}
+                                                </li>
+                                            ))}
+                                        </ul>
+
+                                        <div className="mt-10 lg:mt-5">
+                                            <Label>Kontak</Label>
+                                            <ul className="mt-4 space-y-3 lg:mt-3 lg:grid lg:grid-cols-2 lg:gap-x-4 lg:gap-y-2 lg:space-y-0">
+                                                {member.contacts.map((contact) => {
+                                                    const content = (
+                                                        <>
+                                                            <ContactIcon type={contact.type} className="size-5 shrink-0 text-muted" />
+                                                            {contact.label}
+                                                        </>
+                                                    );
+                                                    return (
+                                                        <li key={contact.type}>
+                                                            {contact.href ? (
+                                                                <a href={contact.href} className="flex items-center gap-3 hover:text-violet">
+                                                                    {content}
+                                                                </a>
+                                                            ) : (
+                                                                <span className="flex items-center gap-3">{content}</span>
+                                                            )}
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    </section>
+                )}
             </Container>
         </section>
     )

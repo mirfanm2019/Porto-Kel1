@@ -83,11 +83,4 @@ func Register(app *fiber.App, h *handlers.Handler, db *gorm.DB) {
 	hobi.Put("/:id", h.UpdateHobi)
 	hobi.Delete("/:id", h.DeleteHobi)
 
-	alamatt:= admin.Group("/alamatt")
-	alamatt.Get("/", h.GetAlamat)
-	alamatt.Post("/", h.CreateAlamat)
-	alamatt.Get("/:id", h.GetAlamat)
-	alamatt.Put("/:id", h.UpdateAlamatt)
-	alamatt.Delete("/:id", h.DeleteAlamat)
-
 }

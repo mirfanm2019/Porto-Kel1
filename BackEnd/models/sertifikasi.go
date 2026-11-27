@@ -10,6 +10,7 @@ type Sertifikasi struct {
 	TanggalKadaluarsa *time.Time `gorm:"column:tanggal_kadaluarsa" json:"tanggal_kadaluarsa"`
 	NomorSertifikat   string     `gorm:"column:nomor_sertifikat" json:"nomor_sertifikat"`
 	URLSertifikat     string     `gorm:"column:url_sertifikat;type:varchar(2048)" json:"url_sertifikat"`
+	URLGambar         string     `gorm:"column:url_gambar;type:varchar(2048)" json:"url_gambar"`
 	Deskripsi         string     `gorm:"column:deskripsi;type:text" json:"deskripsi"`
 	UrutanTampil      int        `gorm:"column:sort_order;not null;default:0" json:"sort_order"`
 	DibuatPada        time.Time  `gorm:"column:created_at;autoCreateTime" json:"created_at"`
@@ -25,6 +26,7 @@ type SertifikasiRequest struct {
 	TanggalKadaluarsa string `json:"tanggal_kadaluarsa"`
 	NomorSertifikat   string `json:"nomor_sertifikat"`
 	URLSertifikat     string `json:"url_sertifikat"`
+	URLGambar         string `json:"url_gambar"`
 	Deskripsi         string `json:"deskripsi"`
 	UrutanTampil      int    `json:"sort_order"`
 }

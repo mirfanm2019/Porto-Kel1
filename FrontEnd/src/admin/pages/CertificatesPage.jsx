@@ -14,6 +14,7 @@ const empty = {
   expiresAt: "",
   credentialId: "",
   credentialUrl: "",
+  imageUrl: "",
   description: "",
 };
 
@@ -88,6 +89,7 @@ export default function CertificatesPage() {
             <TextField label="Tanggal kedaluwarsa (opsional)" type="date" {...form.bind("expiresAt")} />
             <TextField label="ID kredensial (opsional)" placeholder="Masukkan ID kredensial" {...form.bind("credentialId")} />
             <TextField label="URL kredensial" type="url" placeholder="https://" {...form.bind("credentialUrl")} />
+            <TextField label="URL gambar sertifikat" placeholder="/images/nama-file.png" {...form.bind("imageUrl")} />
           </div>
           <TextArea label="Deskripsi" placeholder="Masukkan deskripsi" rows={3} className="mt-6" {...form.bind("description")} />
 

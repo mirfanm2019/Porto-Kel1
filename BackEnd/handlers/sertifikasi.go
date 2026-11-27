@@ -28,7 +28,10 @@ func certificateFromInput(in models.SertifikasiRequest) (models.Sertifikasi, err
 	if !validURL(in.URLSertifikat) {
 		return models.Sertifikasi{}, fiber.NewError(400, "URL sertifikat harus HTTP atau HTTPS")
 	}
-	return models.Sertifikasi{NamaSertifikat: in.NamaSertifikat, Penerbit: in.Penerbit, TanggalTerbit: issue, TanggalKadaluarsa: expiry, NomorSertifikat: in.NomorSertifikat, URLSertifikat: in.URLSertifikat, Deskripsi: in.Deskripsi, UrutanTampil: in.UrutanTampil}, nil
+	if !validImagePath(in.URLGambar) {
+		return models.Sertifikasi{}, fiber.NewError(400, "URL gambar harus berupa path /images atau /uploads, atau URL HTTP/HTTPS")
+	}
+	return models.Sertifikasi{NamaSertifikat: in.NamaSertifikat, Penerbit: in.Penerbit, TanggalTerbit: issue, TanggalKadaluarsa: expiry, NomorSertifikat: in.NomorSertifikat, URLSertifikat: in.URLSertifikat, URLGambar: in.URLGambar, Deskripsi: in.Deskripsi, UrutanTampil: in.UrutanTampil}, nil
 }
 
 func (h *Handler) ListCertificates(c *fiber.Ctx) error {
@@ -129,6 +132,7 @@ func (h *Handler) UpdateCertificate(c *fiber.Ctx) error {
 	sertifikasi.TanggalKadaluarsa = item.TanggalKadaluarsa
 	sertifikasi.NomorSertifikat = item.NomorSertifikat
 	sertifikasi.URLSertifikat = item.URLSertifikat
+	sertifikasi.URLGambar = item.URLGambar
 	sertifikasi.Deskripsi = item.Deskripsi
 	sertifikasi.UrutanTampil = item.UrutanTampil
 	if err := h.DB.Save(&sertifikasi).Error; err != nil {

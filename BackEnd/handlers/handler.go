@@ -86,5 +86,6 @@ func validLink(raw string) bool {
 }
 
 func validImagePath(raw string) bool {
-	return raw == "" || (len(raw) <= 2048 && strings.HasPrefix(raw, "/uploads/") && !strings.Contains(raw, "..")) || validURL(raw)
+	localImagePath := strings.HasPrefix(raw, "/uploads/") || strings.HasPrefix(raw, "/images/")
+	return raw == "" || (len(raw) <= 2048 && localImagePath && !strings.Contains(raw, "..")) || validURL(raw)
 }

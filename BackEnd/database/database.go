@@ -19,7 +19,7 @@ func Open(cfg config.Config) (*gorm.DB, error) {
 	if err := db.AutoMigrate(
 		&models.Autentikasi{}, &models.KontenWebsite{}, &models.Profil{}, &models.Ikon{},
 		&models.MediaSosial{}, &models.Perjalanan{}, &models.Teknologi{}, &models.Proyek{},
-		&models.Sertifikasi{}, &models.TeknologiProyek{}, &models.TeknologiProfil{}, 
+		&models.Sertifikasi{}, &models.TeknologiProyek{}, &models.TeknologiProfil{},
 	); err != nil {
 		return nil, fmt.Errorf("migration: %w", err)
 	}
@@ -51,18 +51,34 @@ func seed(db *gorm.DB, cfg config.Config) error {
 	var content models.KontenWebsite
 	if err := db.First(&content, 1).Error; err == gorm.ErrRecordNotFound {
 		content = models.KontenWebsite{
-			IDKonten: 1, NamaTampilan: "Nama Anda", LabelProfesi: "PORTFOLIO",
-			JudulUtama: "Halo, saya Nama Anda", TeksUtamaHero: "Saya seorang web developer",
-			TeksPendukung: "Saya senang membangun aplikasi yang bermanfaat.",
-			Deskripsi:     "Selamat datang di portfolio pribadi saya.", TeksTombolCTA: "Hubungi saya",
-			URLTujuanCTA: "mailto:halo@example.com", DeskripsiFooter: "Terima kasih sudah berkunjung.",
-			TeksHakCipta: "Hak cipta Nama Anda", TeksTambahanFooter: "Dibuat untuk belajar.",
+			IDKonten: 1, NamaTampilan: "Kelompok 1", LabelProfesi: "KELOMPOK 1",
+			JudulUtama:      "Belajar bareng, berkarya bareng.",
+			TeksUtamaHero:   "Kami dari Kelompok 1, lagi belajar dan bikin proyek bersama.",
+			TeksPendukung:   "Di sini kami kumpulkan tugas, proyek, dan pengalaman selama belajar.",
+			TeksHeroLainnya: "",
+			Deskripsi:       "Selamat datang! Lihat proyek dan perjalanan kami di sini.",
+			TeksTombolCTA:   "Lihat proyek kami", URLTujuanCTA: "#proyek",
+			DeskripsiFooter: "Terima kasih sudah berkunjung.",
+			TeksHakCipta:    "Hak cipta Nama Anda", TeksTambahanFooter: "Dibuat untuk belajar.",
 		}
 		if err := db.Create(&content).Error; err != nil {
 			return fmt.Errorf("seed website content: %w", err)
 		}
 	} else if err != nil {
 		return fmt.Errorf("baca website content: %w", err)
+	} else if isDefaultHeroContent(content) || isLegacyGroupHeroContent(content) {
+		content.NamaTampilan = "Kelompok 1"
+		content.LabelProfesi = "KELOMPOK 1"
+		content.JudulUtama = "Belajar bareng, berkarya bareng."
+		content.TeksUtamaHero = "Kami dari Kelompok 1, lagi belajar dan bikin proyek bersama."
+		content.TeksPendukung = "Di sini kami kumpulkan tugas, proyek, dan pengalaman selama belajar."
+		content.TeksHeroLainnya = ""
+		content.Deskripsi = "Selamat datang! Lihat proyek dan perjalanan kami di sini."
+		content.TeksTombolCTA = "Lihat proyek kami"
+		content.URLTujuanCTA = "#proyek"
+		if err := db.Save(&content).Error; err != nil {
+			return fmt.Errorf("perbarui konten hero default: %w", err)
+		}
 	}
 
 	var profile models.Profil
@@ -150,6 +166,49 @@ func seed(db *gorm.DB, cfg config.Config) error {
 		return fmt.Errorf("baca sertifikasi: %w", err)
 	}
 
+	prestasi := []models.Sertifikasi{
+		{
+			NamaSertifikat:  "Gold Medal — Nusantara Creative Competition (NCC) 3",
+			Penerbit:        "Lembaga Setara Prisma Nusantara (Nusantara Muda) & Politeknik TEDC Bandung",
+			TanggalTerbit:   datePointer(2026, time.April, 11),
+			NomorSertifikat: "001/TEKN/NCC3/LSPN-POLTEK.TEDC/IV/2026",
+			URLGambar:       "/images/Juara%203%20NCC.png",
+			Deskripsi:       "Bidang Teknologi. Waktu: 11–12 April 2026.",
+			UrutanTampil:    2,
+		},
+		{
+			NamaSertifikat:  "Best Presentation — Nusantara Creative Competition (NCC) 3",
+			Penerbit:        "Lembaga Setara Prisma Nusantara (Nusantara Muda) & Politeknik TEDC Bandung",
+			TanggalTerbit:   datePointer(2026, time.April, 11),
+			NomorSertifikat: "007/BEST-FAV/NCC3/LSPN-POLTEK.TEDC/IV/2026",
+			URLGambar:       "/images/Sertifikat%20Best%20Presentation.png",
+			Deskripsi:       "Waktu: 11–12 April 2026.",
+			UrutanTampil:    3,
+		},
+		{
+			NamaSertifikat:  "Silver Medal — Nusantara Creative Competition (NCC) 3",
+			Penerbit:        "Lembaga Setara Prisma Nusantara (Nusantara Muda) & Politeknik TEDC Bandung",
+			TanggalTerbit:   datePointer(2026, time.April, 11),
+			NomorSertifikat: "004/PTN/NCC3/LSPN-POLTEK.TEDC/IV/2026",
+			URLGambar:       "/images/Silver%20Medal%20Pertanian.jpeg",
+			Deskripsi:       "Bidang Pertanian. Waktu: 11–12 April 2026.",
+			UrutanTampil:    4,
+		},
+	}
+	for _, item := range prestasi {
+		var existing models.Sertifikasi
+		err := db.Where("nomor_sertifikat = ?", item.NomorSertifikat).First(&existing).Error
+		if err == gorm.ErrRecordNotFound {
+			if err := db.Create(&item).Error; err != nil {
+				return fmt.Errorf("seed sertifikat prestasi %q: %w", item.NamaSertifikat, err)
+			}
+			continue
+		}
+		if err != nil {
+			return fmt.Errorf("baca sertifikat prestasi %q: %w", item.NamaSertifikat, err)
+		}
+	}
+
 	mediaSosialContoh := models.MediaSosial{IDMediaSosial: 1, NamaPlatform: "GitHub", NamaAkun: "username", IDIkon: uintPointer(1), URLTujuan: "https://github.com/username", UrutanTampil: 1}
 	var mediaSosial models.MediaSosial
 	if err := db.First(&mediaSosial, 1).Error; err == gorm.ErrRecordNotFound {
@@ -188,6 +247,30 @@ func seed(db *gorm.DB, cfg config.Config) error {
 }
 
 func uintPointer(value uint) *uint { return &value }
+
+func isDefaultHeroContent(content models.KontenWebsite) bool {
+	return content.NamaTampilan == "Nama Anda" &&
+		content.LabelProfesi == "PORTFOLIO" &&
+		content.JudulUtama == "Halo, saya Nama Anda" &&
+		content.TeksUtamaHero == "Saya seorang web developer" &&
+		content.TeksPendukung == "Saya senang membangun aplikasi yang bermanfaat." &&
+		content.TeksHeroLainnya == "" &&
+		content.Deskripsi == "Selamat datang di portfolio pribadi saya." &&
+		content.TeksTombolCTA == "Hubungi saya" &&
+		content.URLTujuanCTA == "mailto:halo@example.com"
+}
+
+func isLegacyGroupHeroContent(content models.KontenWebsite) bool {
+	return content.NamaTampilan == "Kelompok 1" &&
+		content.LabelProfesi == "KELOMPOK 1" &&
+		content.JudulUtama == "Belajar bareng, berkarya bareng." &&
+		content.TeksUtamaHero == "Kami dari Kelompok 1, lagi belajar dan bikin proyek bersama." &&
+		content.TeksPendukung == "Di sini kami kumpulkan tugas, proyek, dan pengalaman selama belajar." &&
+		content.TeksHeroLainnya == "Akademik × PTI" &&
+		content.Deskripsi == "Selamat datang! Lihat proyek dan perjalanan kami di sini." &&
+		content.TeksTombolCTA == "Lihat proyek kami" &&
+		content.URLTujuanCTA == "#proyek"
+}
 
 func datePointer(year int, month time.Month, day int) *time.Time {
 	date := time.Date(year, month, day, 0, 0, 0, 0, time.UTC)

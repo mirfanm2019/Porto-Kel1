@@ -9,6 +9,12 @@ import {
 } from "./mock.js";
 
 const STORAGE_KEY = "portfolio-mock-db-v3";
+const OLD_HERO_DESCRIPTION =
+    "Saya membantu tim meluncurkan produk yang kuat dan mudah dikelola — memadukan pemikiran produk, kejelasan visual, dan pemecahan masalah berbasis kode.";
+const PREVIOUS_HERO_DESCRIPTION =
+    "Kami membantu tim meluncurkan produk yang kuat dan mudah dikelola — memadukan pemikiran produk, kejelasan visual, dan pemecahan masalah berbasis kode.";
+const OLD_PROFILE_ABOUT =
+    "Saya bermitra dengan tim untuk mengubah ide produk menjadi pengalaman yang dipoles dan mudah dikelola. Pendekatan saya menyeimbangkan kejelasan visual, kelayakan teknis, dan kolaborasi yang efektif.";
 
 function seed() {
     return structuredClone({
@@ -29,6 +35,40 @@ export function readDb() {
     try {
         const saved = localStorage.getItem(STORAGE_KEY);
         memory = saved ? JSON.parse(saved) : seed();
+        let migrated = false;
+        if (
+            memory.certificates?.length === 3 &&
+            memory.certificates.every((certificate) => certificate.title === "[Judul Sertifikasi]" && !certificate.credentialId)
+        ) {
+            memory.certificates = structuredClone(mockCertificates);
+            migrated = true;
+        }
+        if (memory.hero?.description === OLD_HERO_DESCRIPTION) {
+            memory.hero.description = mockHero.description;
+            migrated = true;
+        }
+        if (memory.hero?.displayName === "[Nama Full]" && memory.hero?.headline === "Bangun dan luncurkan.") {
+            memory.hero.displayName = mockHero.displayName;
+            memory.hero.roleLabel = mockHero.roleLabel;
+            memory.hero.headline = mockHero.headline;
+            if (!memory.hero.heroText) memory.hero.heroText = mockHero.heroText;
+            if (!memory.hero.supportText) memory.hero.supportText = mockHero.supportText;
+            if (memory.hero.extraText === "Akademik × PTI") memory.hero.extraText = mockHero.extraText;
+            if (memory.hero.ctaLabel === "Jelajahi proyek") memory.hero.ctaLabel = mockHero.ctaLabel;
+            if (memory.hero.ctaUrl === "#proyek") memory.hero.ctaUrl = mockHero.ctaUrl;
+            migrated = true;
+        }
+        if (memory.hero?.description === PREVIOUS_HERO_DESCRIPTION) {
+            memory.hero.description = mockHero.description;
+            migrated = true;
+        }
+        if (memory.profile?.about === OLD_PROFILE_ABOUT) {
+            memory.profile.about = mockProfile.about;
+            migrated = true;
+        }
+        if (migrated) {
+            writeDb(memory);
+        }
     } catch {
         memory = seed();
     }
